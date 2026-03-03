@@ -66,7 +66,7 @@ export default function CampaignDetail({ params }: { params: { id: string } }) {
         console.log('Chainlink price feed error:', priceError)
       }
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Contract test failed:', error)
     }
   }
@@ -87,7 +87,7 @@ export default function CampaignDetail({ params }: { params: { id: string } }) {
         active: campaignData.active,
         createdAt: Number(campaignData.createdAt)
       })
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching campaign:', error)
     } finally {
       setLoading(false)
@@ -125,11 +125,11 @@ export default function CampaignDetail({ params }: { params: { id: string } }) {
       // Refresh campaign data
       await fetchCampaign()
       alert('Donation successful!')
-    } catch (error) {
+    } catch (error: any) {
       console.error('Full error object:', error)
       
       let errorMessage = 'Please try again.'
-      if (error.message) {
+      if (error?.message) {
         if (error.message.includes('user rejected')) {
           errorMessage = 'Transaction was cancelled.'
         } else if (error.message.includes('insufficient funds')) {

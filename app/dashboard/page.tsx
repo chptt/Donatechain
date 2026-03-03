@@ -56,7 +56,7 @@ export default function Dashboard() {
       
       const userCampaigns = await Promise.all(campaignPromises)
       setCampaigns(userCampaigns)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching user campaigns:', error)
     } finally {
       setLoading(false)
@@ -74,7 +74,7 @@ export default function Dashboard() {
       // Refresh campaigns
       await fetchUserCampaigns()
       alert('Withdrawal successful!')
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error withdrawing:', error)
       alert('Error withdrawing funds. Please try again.')
     } finally {
@@ -83,12 +83,12 @@ export default function Dashboard() {
   }
 
   const calculateStats = () => {
-    const totalRaised = campaigns.reduce((sum, campaign) => {
+    const totalRaised = campaigns.reduce((sum: number, campaign: any) => {
       return sum + (Number(ethers.formatEther(campaign.totalDonations)) * ethPrice)
     }, 0)
     
     const activeCampaigns = campaigns.filter(c => c.active).length
-    const totalGoal = campaigns.reduce((sum, campaign) => {
+    const totalGoal = campaigns.reduce((sum: number, campaign: any) => {
       return sum + Number(ethers.formatEther(campaign.goalAmount))
     }, 0)
     

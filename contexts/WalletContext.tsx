@@ -86,7 +86,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         setContract(contract)
         
         localStorage.setItem('walletConnected', 'true')
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error connecting wallet:', error)
       }
     } else {
@@ -112,7 +112,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         
         // Set fixed ETH amount for $1 donation
         setRequiredETH("0.0003")
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error fetching ETH price, using fallbacks:', error)
         // Use fallback values
         setEthPrice(3000) // Approximate ETH price

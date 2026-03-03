@@ -52,17 +52,17 @@ export default function Home() {
       setCampaigns(formattedCampaigns)
       
       // Calculate stats
-      const totalRaised = formattedCampaigns.reduce((sum, campaign) => {
+      const totalRaised = formattedCampaigns.reduce((sum: number, campaign: any) => {
         return sum + (Number(campaign.totalDonations) / 1e18 * ethPrice)
       }, 0)
       
       setStats({
         totalCampaigns: formattedCampaigns.length,
         totalRaised,
-        activeCampaigns: formattedCampaigns.filter(c => c.active).length
+        activeCampaigns: formattedCampaigns.filter((c: any) => c.active).length
       })
       
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching campaigns:', error)
     } finally {
       setLoading(false)

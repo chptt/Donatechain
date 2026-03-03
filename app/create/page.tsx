@@ -45,7 +45,7 @@ export default function CreateCampaign() {
       await tx.wait()
       
       router.push('/dashboard')
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error creating campaign:', error)
       alert('Error creating campaign. Please try again.')
     } finally {

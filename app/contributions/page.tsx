@@ -58,7 +58,7 @@ export default function Contributions() {
       
       const userContributions = await Promise.all(contributionPromises)
       setContributions(userContributions)
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error fetching user contributions:', error)
     } finally {
       setLoading(false)
@@ -66,7 +66,7 @@ export default function Contributions() {
   }
 
   const calculateTotalContributions = () => {
-    return contributions.reduce((sum, contribution) => {
+    return contributions.reduce((sum: number, contribution: any) => {
       return sum + (Number(ethers.formatEther(contribution.donationAmount)) * ethPrice)
     }, 0)
   }
