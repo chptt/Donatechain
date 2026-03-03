@@ -82,13 +82,16 @@ export default function Dashboard() {
   }
 
   const calculateStats = () => {
+    // Calculate total raised based on number of donations (0.0003 ETH each = $1)
     const totalRaised = campaigns.reduce((sum: number, campaign: any) => {
-      return sum + (Number(ethers.formatEther(campaign.totalDonations)) * ethPrice)
+      const donationsInETH = Number(ethers.formatEther(campaign.totalDonations))
+      const numberOfDonations = Math.round(donationsInETH / 0.0003)
+      return sum + (numberOfDonations * 1.00)
     }, 0)
     
     const activeCampaigns = campaigns.filter(c => c.active).length
     const totalGoal = campaigns.reduce((sum: number, campaign: any) => {
-      return sum + Number(ethers.formatEther(campaign.goalAmount))
+      return sum + (Number(ethers.formatEther(campaign.goalAmount)) / 10) // Adjust for $1 donations
     }, 0)
     
     return { totalRaised, activeCampaigns, totalGoal }
@@ -235,8 +238,10 @@ export default function Dashboard() {
                   {campaigns.map((campaign) => {
                     const goalInUSD = Number(ethers.formatEther(campaign.goalAmount))
                     const donationsInETH = Number(ethers.formatEther(campaign.totalDonations))
-                    const donationsInUSD = donationsInETH * ethPrice
-                    const progressPercentage = goalInUSD > 0 ? Math.min((donationsInUSD / goalInUSD) * 100, 100) : 0
+                    const numberOfDonations = Math.round(donationsInETH / 0.0003)
+                    const donationsInUSD = numberOfDonations * 1.00
+                    const adjustedGoalInUSD = goalInUSD / 10
+                    const progressPercentage = adjustedGoalInUSD > 0 ? Math.min((donationsInUSD / adjustedGoalInUSD) * 100, 100) : 0
 
                     return (
                       <tr key={campaign.tokenId} className="hover:bg-gray-50">
@@ -259,7 +264,7 @@ export default function Dashboard() {
                           {charityTypes[campaign.charityType]}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                          ${goalInUSD.toFixed(2)}
+                          ${adjustedGoalInUSD.toFixed(2)}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">${donationsInUSD.toFixed(2)}</div>

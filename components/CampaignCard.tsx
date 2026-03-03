@@ -40,11 +40,14 @@ export default function CampaignCard({ campaign, ethPrice }: CampaignCardProps) 
   
   const goalInUSD = Number(ethers.formatEther(campaign.goalAmount))
   const donationsInETH = Number(ethers.formatEther(campaign.totalDonations))
-  const donationsInUSD = donationsInETH * ethPrice
-  // Adjust for $1 donations display
-  const adjustedGoalInUSD = goalInUSD / 10 // Show goal as 1/10th since donations are now $1
-  const adjustedDonationsInUSD = donationsInUSD / 10 // Show donations as 1/10th
-  const progressPercentage = adjustedGoalInUSD > 0 ? Math.min((adjustedDonationsInUSD / adjustedGoalInUSD) * 100, 100) : 0
+  
+  // Calculate number of $1 donations (0.0003 ETH each)
+  const numberOfDonations = Math.round(donationsInETH / 0.0003)
+  const donationsInUSD = numberOfDonations * 1.00
+  
+  // Adjust goal for $1 donation model
+  const adjustedGoalInUSD = goalInUSD / 10
+  const progressPercentage = adjustedGoalInUSD > 0 ? Math.min((donationsInUSD / adjustedGoalInUSD) * 100, 100) : 0
 
   return (
     <motion.div
@@ -72,7 +75,7 @@ export default function CampaignCard({ campaign, ethPrice }: CampaignCardProps) 
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm text-gray-600">Progress</span>
             <span className="text-sm font-medium text-gray-900">
-              ${adjustedDonationsInUSD.toFixed(2)} / ${adjustedGoalInUSD.toFixed(2)}
+              ${donationsInUSD.toFixed(2)} / ${adjustedGoalInUSD.toFixed(2)}
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">

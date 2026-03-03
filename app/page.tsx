@@ -53,7 +53,9 @@ export default function Home() {
       
       // Calculate stats
       const totalRaised = formattedCampaigns.reduce((sum: number, campaign: any) => {
-        return sum + (Number(campaign.totalDonations) / 1e18 * ethPrice)
+        const donationsInETH = Number(campaign.totalDonations) / 1e18
+        const numberOfDonations = Math.round(donationsInETH / 0.0003)
+        return sum + (numberOfDonations * 1.00)
       }, 0)
       
       setStats({

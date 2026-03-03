@@ -171,11 +171,15 @@ export default function CampaignDetail({ params }: { params: { id: string } }) {
   
   const goalInUSD = Number(ethers.formatEther(campaign.goalAmount))
   const donationsInETH = Number(ethers.formatEther(campaign.totalDonations))
-  const donationsInUSD = donationsInETH * ethPrice
-  // Since we're now doing $1 donations but the contract expects $10, 
-  // we need to adjust the display calculation
-  const adjustedDonationsInUSD = donationsInUSD / 10 // Convert from $10 donations to $1 display
-  const progressPercentage = goalInUSD > 0 ? Math.min((adjustedDonationsInUSD / (goalInUSD / 10)) * 100, 100) : 0
+  
+  // Since we're donating 0.0003 ETH per donation (approximately $1)
+  // We calculate how many donations have been made
+  const numberOfDonations = Math.round(donationsInETH / 0.0003)
+  const donationsInUSD = numberOfDonations * 1.00 // Each donation is $1
+  
+  // Adjust goal to match $1 donation model
+  const adjustedGoalInUSD = goalInUSD / 10 // Original goal was for $10 donations
+  const progressPercentage = adjustedGoalInUSD > 0 ? Math.min((donationsInUSD / adjustedGoalInUSD) * 100, 100) : 0
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
@@ -227,11 +231,11 @@ export default function CampaignDetail({ params }: { params: { id: string } }) {
               
               <div className="grid grid-cols-2 gap-4 text-center">
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-2xl font-bold text-gray-900">${adjustedDonationsInUSD.toFixed(2)}</p>
+                  <p className="text-2xl font-bold text-gray-900">${donationsInUSD.toFixed(2)}</p>
                   <p className="text-sm text-gray-600">Raised</p>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
-                  <p className="text-2xl font-bold text-gray-900">${(goalInUSD / 10).toFixed(2)}</p>
+                  <p className="text-2xl font-bold text-gray-900">${adjustedGoalInUSD.toFixed(2)}</p>
                   <p className="text-sm text-gray-600">Goal</p>
                 </div>
               </div>
