@@ -172,14 +172,25 @@ export default function CampaignDetail({ params }: { params: { id: string } }) {
   const goalInUSD = Number(ethers.formatEther(campaign.goalAmount))
   const donationsInETH = Number(ethers.formatEther(campaign.totalDonations))
   
-  // Since we're donating 0.0003 ETH per donation (approximately $1)
-  // We calculate how many donations have been made
-  const numberOfDonations = Math.round(donationsInETH / 0.0003)
-  const donationsInUSD = numberOfDonations * 1.00 // Each donation is $1
+  console.log('Campaign Debug:', {
+    goalInUSD,
+    donationsInETH,
+    totalDonationsRaw: campaign.totalDonations
+  })
   
-  // Adjust goal to match $1 donation model
-  const adjustedGoalInUSD = goalInUSD / 10 // Original goal was for $10 donations
+  // Since we're donating 0.0003 ETH per donation (approximately $1)
+  // Calculate donations: each 0.0003 ETH = $1
+  const donationsInUSD = (donationsInETH / 0.0003) * 1.00
+  
+  // Adjust goal to match $1 donation model (original was for $10 donations)
+  const adjustedGoalInUSD = goalInUSD / 10
   const progressPercentage = adjustedGoalInUSD > 0 ? Math.min((donationsInUSD / adjustedGoalInUSD) * 100, 100) : 0
+  
+  console.log('Calculated:', {
+    donationsInUSD,
+    adjustedGoalInUSD,
+    progressPercentage
+  })
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">

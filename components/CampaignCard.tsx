@@ -41,9 +41,8 @@ export default function CampaignCard({ campaign, ethPrice }: CampaignCardProps) 
   const goalInUSD = Number(ethers.formatEther(campaign.goalAmount))
   const donationsInETH = Number(ethers.formatEther(campaign.totalDonations))
   
-  // Calculate number of $1 donations (0.0003 ETH each)
-  const numberOfDonations = Math.round(donationsInETH / 0.0003)
-  const donationsInUSD = numberOfDonations * 1.00
+  // Calculate donations: each 0.0003 ETH = $1
+  const donationsInUSD = (donationsInETH / 0.0003) * 1.00
   
   // Adjust goal for $1 donation model
   const adjustedGoalInUSD = goalInUSD / 10

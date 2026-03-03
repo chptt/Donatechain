@@ -82,11 +82,11 @@ export default function Dashboard() {
   }
 
   const calculateStats = () => {
-    // Calculate total raised based on number of donations (0.0003 ETH each = $1)
+    // Calculate total raised: each 0.0003 ETH = $1
     const totalRaised = campaigns.reduce((sum: number, campaign: any) => {
       const donationsInETH = Number(ethers.formatEther(campaign.totalDonations))
-      const numberOfDonations = Math.round(donationsInETH / 0.0003)
-      return sum + (numberOfDonations * 1.00)
+      const donationsInUSD = (donationsInETH / 0.0003) * 1.00
+      return sum + donationsInUSD
     }, 0)
     
     const activeCampaigns = campaigns.filter(c => c.active).length
@@ -238,8 +238,7 @@ export default function Dashboard() {
                   {campaigns.map((campaign) => {
                     const goalInUSD = Number(ethers.formatEther(campaign.goalAmount))
                     const donationsInETH = Number(ethers.formatEther(campaign.totalDonations))
-                    const numberOfDonations = Math.round(donationsInETH / 0.0003)
-                    const donationsInUSD = numberOfDonations * 1.00
+                    const donationsInUSD = (donationsInETH / 0.0003) * 1.00
                     const adjustedGoalInUSD = goalInUSD / 10
                     const progressPercentage = adjustedGoalInUSD > 0 ? Math.min((donationsInUSD / adjustedGoalInUSD) * 100, 100) : 0
 
