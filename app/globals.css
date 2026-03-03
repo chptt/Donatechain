@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary-600 hover:bg-primary-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent;
+  }
+  
+  .charity-housing {
+    @apply bg-gradient-to-br from-amber-400 to-orange-500;
+  }
+  
+  .charity-meals {
+    @apply bg-gradient-to-br from-emerald-400 to-green-500;
+  }
+  
+  .charity-medical {
+    @apply bg-gradient-to-br from-red-400 to-pink-500;
+  }
+  
+  .charity-education {
+    @apply bg-gradient-to-br from-purple-400 to-violet-500;
+  }
+  
+  .charity-equipment {
+    @apply bg-gradient-to-br from-cyan-400 to-blue-500;
+  }
+  
+  .charity-rivercleaning {
+    @apply bg-gradient-to-br from-sky-400 to-blue-500;
+  }
+}
